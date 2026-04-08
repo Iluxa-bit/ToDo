@@ -1,0 +1,71 @@
+﻿@ToDo_1_HostAddress = https://localhost:7006
+
+GET {{ToDo_1_HostAddress}}/api/tasks
+
+###
+
+POST {{ToDo_1_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  
+}
+
+###
+
+@id=1
+DELETE {{ToDo_1_HostAddress}}/api/tasks/{{id}}
+
+###
+
+GET {{ToDo_1_HostAddress}}/api/tasks/2
+
+###
+
+PUT {{ToDo_1_HostAddress}}/api/tasks/2
+Content-Type: application/json
+
+{
+  "title": "Изменённая задача",
+  "description": "Описание задачи2",
+  "status": 3,
+  "createdAt": "0001-01-01T00:00:00",
+  "updatedAt": "0001-01-01T00:00:00"
+}
+
+###
+
+GET {{ToDo_1_HostAddress}}/api/tasks/2
+
+###
+
+GET {{ToDo_1_HostAddress}}/api/tasks
+
+###
+
+POST {{ToDo_1_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  //CreateTaskDto
+}
+
+###
+
+POST {{ToDo_1_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  //CreateTaskDto
+}
+
+###
+
+PATCH {{ToDo_1_HostAddress}}/api/tasks/3/status
+Content-Type: application/json
+
+{
+  "status"=10
+}
+
+###
