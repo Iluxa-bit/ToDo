@@ -25,7 +25,7 @@
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.Models.CreateTaskDto",
+        "Type": "ToDo_1.ClassesDTO.CreateTaskDto",
         "IsRequired": true
       }
     ],
@@ -91,7 +91,7 @@
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.Models.UpdateTaskDto",
+        "Type": "ToDo_1.ClassesDTO.UpdateTaskDto",
         "IsRequired": true
       },
       {
@@ -122,8 +122,8 @@
         "IsRequired": true
       },
       {
-        "Name": "patchStatus",
-        "Type": "ToDo_1.Models.PatchStatusDto",
+        "Name": "patchStatusDto",
+        "Type": "ToDo_1.ClassesDTO.PatchStatusDto",
         "IsRequired": true
       }
     ],

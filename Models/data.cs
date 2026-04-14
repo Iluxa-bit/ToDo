@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-using ToDo_1.Models;
-namespace ToDo_1.Data
+using ToDo_1.ClassesDTO;
+namespace ToDo_1.Models
 {
  
     public class ApplicationContext : DbContext

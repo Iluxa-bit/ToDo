@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ToDo_1.Models;
+using ToDo_1.ClassesDTO;
 
 namespace ToDo_1.Models
 {

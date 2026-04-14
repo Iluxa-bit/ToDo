@@ -1,4 +1,4 @@
-﻿namespace ToDo_1.Models
+﻿namespace ToDo_1.ClassesDTO
 {
     public enum StatusDto
     {

@@ -1,27 +1,42 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
+using ToDo_1.ClassesDTO;
+using ToDo_1.Logging;
 using ToDo_1.Models;
-using ToDo_1.Data;
 
 
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
  opt.UseNpgsql(builder.Configuration.GetConnectionString("MyWebApiConection")));
+builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
 
 var app = builder.Build();
 
-app.MapGet("/api/tasks", async (ApplicationContext db) => Results.Json(await db.Tasks.ToListAsync())); //db - îáúåêò, 
+app.MapGet("/api/tasks", async (ApplicationContext db, ILogger<Program> logger) => {
+
+    logger.LogInformation("ÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔ");
+    return Results.Json(await db.Tasks.ToListAsync());
+    }); //db - îáúåêò, 
 
 app.MapGet("/api/tasks/{id}", async (int id, ApplicationContext db) =>
 {
     try
     {
+    
         // ïîëó÷àåì ïîëüçîâàòåëÿ ïî id
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(u => u.Id == id);
         // åñëè íå íàéäåí, îòïðàâëÿåì ñòàòóñíûé êîä è ñîîáùåíèå îá îøèáêå
         if (task == null) return Results.NotFound(new { message = "Ïîëüçîâàòåëü íå íàéäåí" });
+        
 
         // åñëè ïîëüçîâàòåëü íàéäåí, îòïðàâëÿåì åãî
         return Results.Json(task);
