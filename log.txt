@@ -1,15 +1,24 @@
-Debug: Middleware loadedDebug: Middleware loaded. Script /_framework/aspnetcore-browser-refresh.js (16497 B).Debug: Middleware loaded. Script /_framework/blazor-hotreload.js (799 B).Debug: Middleware loaded: DOTNET_MODIFIABLE_ASSEMBLIES=debug, __ASPNETCORE_BROWSER_TOOLS=trueInformation: Now listening on: https://localhost:7006Information: Now listening on: http://localhost:5098Information: Application started. Press Ctrl+C to shut down.Information: Hosting environment: DevelopmentInformation: Content root path: C:\Users\Krig\source\repos\ToDo_1\ToDo_1Information: ФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФInformation: Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-SELECT t."Id", t."CreatedAt", t."Description", t."Status", t."Title", t."UpdatedAt"
-FROM "Tasks" AS tDebug: Middleware loaded
-Debug: Middleware loaded. Script /_framework/aspnetcore-browser-refresh.js (16497 B).
-Debug: Middleware loaded. Script /_framework/blazor-hotreload.js (799 B).
-Debug: Middleware loaded: DOTNET_MODIFIABLE_ASSEMBLIES=debug, __ASPNETCORE_BROWSER_TOOLS=true
-Information: Now listening on: https://localhost:7006
-Information: Now listening on: http://localhost:5098
-Information: Application started. Press Ctrl+C to shut down.
-Information: Hosting environment: Development
-Information: Content root path: C:\Users\Krig\source\repos\ToDo_1\ToDo_1
-Information: ФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФФ
-Information: Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-SELECT t."Id", t."CreatedAt", t."Description", t."Status", t."Title", t."UpdatedAt"
-FROM "Tasks" AS t
+([TIMING] GET / status code 200 1454 ms, 15.04.2026 15:04:52)
+([TIMING] GET /api/tasks status code 200 51 ms, 15.04.2026 15:05:30)
+([TIMING] GET / status code 200 1031 ms, 15.04.2026 12:07:05)
+([TIMING] GET / status code 200 877 ms, 15.04.2026 12:07:56)
+([TIMING] GET / status code 200 1025 ms, 15.04.2026 12:09:47)
+([TIMING] GET / status code 200 1239 ms, 15.04.2026 12:14:32)
+([TIMING] GET /favicon.ico status code 404 5 ms, 16.04.2026 16:16:42)
+([TIMING] GET / status code 200 1533 ms, 16.04.2026 16:17:33)
+([TIMING] GET / status code 200 1165 ms, 17.04.2026 6:25:24)
+([TIMING] GET / status code 200 1516 ms, 17.04.2026 6:27:34)
+([TIMING] GET / status code 200 857 ms, 17.04.2026 6:29:46)
+([TIMING] GET /api/tasks status code 200 82 ms, 17.04.2026 6:30:08)
+([TIMING] GET / status code 200 914 ms, 17.04.2026 6:44:47)
+([TIMING] GET /api/tasks status code 200 81 ms, 17.04.2026 6:44:51)
+([TIMING] GET / status code 200 838 ms, 17.04.2026 6:49:09)
+([TIMING] GET /api/tasks status code 200 92 ms, 17.04.2026 6:49:13)
+([TIMING] GET /api/logs/2026-04/16 status code 404 0 ms, 17.04.2026 6:49:42)
+([TIMING] GET /api/logs/2026-04-16 status code 200 23 ms, 17.04.2026 6:49:51)
+([TIMING] GET / status code 200 1088 ms, 17.04.2026 7:00:02)
+([TIMING] GET /api/logs/2026-04-16 status code 200 57 ms, 17.04.2026 7:00:08)
+([TIMING] GET /api/logs/2026-04-15 status code 200 3 ms, 17.04.2026 7:00:44)
+([TIMING] GET / status code 200 924 ms, 17.04.2026 7:04:25)
+([TIMING] GET /api/logs/2026-04-16 status code 200 69 ms, 17.04.2026 7:04:43)
+([TIMING] GET /api/logs/2026-04 status code 404 151 ms, 17.04.2026 7:04:49)

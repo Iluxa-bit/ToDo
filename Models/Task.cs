@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using ToDo_1.ClassesDTO;
 
 namespace ToDo_1.Models
 {
-    
+
+    [Index("Title", "Description")]
         public class Purpose
         {
             public int Id { get; set; }

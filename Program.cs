@@ -7,9 +7,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.IO;
 using ToDo_1.ClassesDTO;
-using ToDo_1.Logging;
+//using ToDo_1.Logging;
 using ToDo_1.Models;
 
 
@@ -17,13 +18,39 @@ using ToDo_1.Models;
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
  opt.UseNpgsql(builder.Configuration.GetConnectionString("MyWebApiConection")));
-builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
+//builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
+builder.Services.AddScoped<IObservable>(observ => 
+observ.GetRequiredService<ApplicationContext>());
 
 var app = builder.Build();
 
+app.UseMiddleware<RequestTimingMiddleware>();
+
+app.MapGet("/", async (ApplicationContext db) =>
+{
+    //return Results.Json(await db.Tasks.ToListAsync());
+
+    var tasks = await db.Communications.FromSqlRaw("SELECT * FROM \"Communications\"").ToListAsync();
+    return Results.Json(tasks);
+});
+
+app.MapGet("/api/logs/{date}", async (ApplicationContext db, string date) =>
+{
+//var utcDate = DateTime.SpecifyKind(date.Date, DateTimeKind.Utc);
+try
+{
+    var logs = await db.Communications.FromSqlRaw("SELECT * FROM \"Communications\" WHERE \"dateTime\"::DATE={0} ::date ", date).ToListAsync();
+    return Results.Json(logs);
+}
+catch
+{
+    return Results.NotFound(new{message="Íåêîððåêòíûå äàííûå" });
+    }
+});
+
 app.MapGet("/api/tasks", async (ApplicationContext db, ILogger<Program> logger) => {
 
-    logger.LogInformation("ÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔÔ");
+    
     return Results.Json(await db.Tasks.ToListAsync());
     }); //db - îáúåêò, 
 
@@ -125,4 +152,36 @@ app.MapPatch("/api/tasks/{id}/status", async (ApplicationContext db, int id, Pat
 });
 
 app.Run();
+
+
+public class RequestTimingMiddleware
+{
+    private readonly RequestDelegate next;
+
+    public RequestTimingMiddleware(RequestDelegate next)
+    {
+        this.next = next;
+        
+    }
+
+    public async Task InvokeAsync(HttpContext context,IObservable observable)
+    {
+        
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        var method = context.Request.Method;
+        var path = context.Request.Path;
+
+        await next.Invoke(context);
+
+        
+        stopwatch.Stop();
+        var duration = stopwatch.ElapsedMilliseconds;
+        var statuscode = context.Response.StatusCode;
+        var communication = new Communication();
+        communication.message = $"[TIMING] {method} {path} status code {statuscode} {duration} ms";
+        communication.dateTime= DateTime.UtcNow;
+        observable.NotifyObservers(communication);
+
+    }
+}
 
