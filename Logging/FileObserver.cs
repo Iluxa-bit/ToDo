@@ -1,7 +1,7 @@
 ﻿using ToDo_1.Models;
 namespace ToDo_1.Logging
 {
-    public class FileObserver : IObserverLog
+    public class FileObserver : FormatLogMesssage, IObserverLog
     {
         private readonly string filePath;
         private static object _lock = new();
@@ -11,11 +11,16 @@ namespace ToDo_1.Logging
             this.filePath = filePath;
         }
 
+        protected override string EditorMessage(Log log)
+        {
+            return $"Обновлённое сообщение {log.Message}{log.DateTime}";
+        }
+
         public void Update(Log log)
         {
             lock (_lock)
             {
-                File.AppendAllText(filePath, (log.Message, log.DateTime) + Environment.NewLine);
+                File.AppendAllText(filePath, EditorMessage(log) + Environment.NewLine);
             }
         }
     }

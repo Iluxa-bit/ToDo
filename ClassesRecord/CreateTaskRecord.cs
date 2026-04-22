@@ -1,5 +1,5 @@
 ﻿namespace ToDo_1.ClassesRecord
 {
  
-    public record CreateTaskRecord(string Title, string? Description);
+    public record struct CreateTaskRecord(string Title, string? Description);
 }

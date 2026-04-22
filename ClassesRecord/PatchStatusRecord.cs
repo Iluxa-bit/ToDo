@@ -1,5 +1,5 @@
 ﻿namespace ToDo_1.ClassesRecord
 {
     
-    public record PatchStatusRecord(StatusRecord status);
+    public record struct PatchStatusRecord(StatusRecord status);
 }

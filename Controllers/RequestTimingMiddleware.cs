@@ -4,7 +4,7 @@ using ToDo_1.Logging;
 
 namespace ToDo_1.Controllers
 {
-    public class RequestTimingMiddleware
+    public class RequestTimingMiddleware 
     {
         private readonly RequestDelegate next;
 
@@ -16,7 +16,7 @@ namespace ToDo_1.Controllers
 
         public async Task InvokeAsync(HttpContext context, IObservableLog observableLog)
         {
-
+            
             Stopwatch stopwatch = Stopwatch.StartNew();
             var method = context.Request.Method;
             var path = context.Request.Path;

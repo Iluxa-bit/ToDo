@@ -102,4 +102,3 @@ C:\Users\Krig\source\repos\ToDo_1\ToDo_1\bin\Debug\net8.0\zh-Hant\Microsoft.Code
 C:\Users\Krig\source\repos\ToDo_1\ToDo_1\obj\Debug\net8.0\ToDo_1.csproj.AssemblyReference.cache
 C:\Users\Krig\source\repos\ToDo_1\ToDo_1\obj\Debug\net8.0\ToDo_1.csproj.Up2Date
 C:\Users\Krig\source\repos\ToDo_1\ToDo_1\obj\Debug\net8.0\ToDo_1.sourcelink.json
-C:\Users\Krig\source\repos\ToDo_1\ToDo_1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
