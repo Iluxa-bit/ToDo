@@ -1,45 +1,36 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.IO;
 using ToDo_1.ClassesDTO;
+using ToDo_1.Controllers;
 //using ToDo_1.Logging;
 using ToDo_1.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using ToDo_1.Logging;
 
-
-
+const string MESSAGE_ERROR = "Некорректные данные";
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
  opt.UseNpgsql(builder.Configuration.GetConnectionString("MyWebApiConection")));
-//builder.Logging.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "log.txt"));
-builder.Services.AddScoped<IObservable>(observ => 
+builder.Services.AddScoped<IObservableLog>(observ => 
 observ.GetRequiredService<ApplicationContext>());
-
 var app = builder.Build();
 
-app.UseMiddleware<RequestTimingMiddleware>();
 
+
+app.UseMiddleware<RequestTimingMiddleware>();
 app.MapGet("/", async (ApplicationContext db) =>
 {
-    //return Results.Json(await db.Tasks.ToListAsync());
-
-    var tasks = await db.Communications.FromSqlRaw("SELECT * FROM \"Communications\"").ToListAsync();
+    var tasks = await db.Logs.FromSqlRaw("SELECT * FROM \"Logs\"").ToListAsync();
     return Results.Json(tasks);
 });
 
+
 app.MapGet("/api/logs/{date}", async (ApplicationContext db, string date) =>
 {
-//var utcDate = DateTime.SpecifyKind(date.Date, DateTimeKind.Utc);
 try
 {
-    var logs = await db.Communications.FromSqlRaw("SELECT * FROM \"Communications\" WHERE \"dateTime\"::DATE={0} ::date ", date).ToListAsync();
+    var logs = await db.Logs.FromSqlRaw("SELECT * FROM \"Logs\" WHERE \"dateTime\"::DATE={0} ::date ", date).ToListAsync();
     return Results.Json(logs);
 }
 catch
@@ -48,13 +39,16 @@ catch
     }
 });
 
+
 app.MapGet("/api/tasks", async (ApplicationContext db, ILogger<Program> logger) => {
 
     
     return Results.Json(await db.Tasks.ToListAsync());
     }); //db - объект, 
 
-app.MapGet("/api/tasks/{id}", async (int id, ApplicationContext db) =>
+
+
+app.MapGet("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
 {
     try
     {
@@ -62,7 +56,7 @@ app.MapGet("/api/tasks/{id}", async (int id, ApplicationContext db) =>
         // получаем пользователя по id
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(u => u.Id == id);
         // если не найден, отправляем статусный код и сообщение об ошибке
-        if (task == null) return Results.NotFound(new { message = "Пользователь не найден" });
+        if (task == null) return Results.NotFound(MESSAGE_ERROR);
         
 
         // если пользователь найден, отправляем его
@@ -70,12 +64,14 @@ app.MapGet("/api/tasks/{id}", async (int id, ApplicationContext db) =>
     }
     catch
     {
-        return Results.NotFound(new { message = "Некорректные данные" });
+        return Results.NotFound(MESSAGE_ERROR);
     }
 
 });
 
-app.MapDelete("/api/tasks/{id}", async (int id, ApplicationContext db) =>
+
+
+app.MapDelete("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
 {
     try
     {
@@ -96,9 +92,13 @@ app.MapDelete("/api/tasks/{id}", async (int id, ApplicationContext db) =>
     }
 });
 
-app.MapPost("/api/tasks", async (ApplicationContext db, CreateTaskDto taskDto) => {
+
+
+app.MapPost("/api/tasks", async (ApplicationContext db, CreateTaskRecord taskDto) => {
 
     // устанавливаем id для нового пользователя
+
+
     Purpose task = new Purpose();
     task.Title = taskDto.Title;
     task.Description = taskDto.Description;
@@ -111,7 +111,9 @@ app.MapPost("/api/tasks", async (ApplicationContext db, CreateTaskDto taskDto) =
     return Results.Json(task);
 });
 
-app.MapPut("/api/tasks/{id}", async (UpdateTaskDto taskDto, ApplicationContext db,int id) => {
+
+
+app.MapPut("/api/tasks/{id:int}", async (UpdateTaskRecord taskDto, ApplicationContext db,int id) => {
 
     try
     {
@@ -134,7 +136,9 @@ app.MapPut("/api/tasks/{id}", async (UpdateTaskDto taskDto, ApplicationContext d
     }
 });
 
-app.MapPatch("/api/tasks/{id}/status", async (ApplicationContext db, int id, PatchStatusDto patchStatusDto) => {
+
+
+app.MapPatch("/api/tasks/{id:int}/status", async (ApplicationContext db, int id, PatchStatusRecord patchStatusDto) => {
     try
     {
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(x => x.Id == id);
@@ -151,37 +155,6 @@ app.MapPatch("/api/tasks/{id}/status", async (ApplicationContext db, int id, Pat
 
 });
 
+
+
 app.Run();
-
-
-public class RequestTimingMiddleware
-{
-    private readonly RequestDelegate next;
-
-    public RequestTimingMiddleware(RequestDelegate next)
-    {
-        this.next = next;
-        
-    }
-
-    public async Task InvokeAsync(HttpContext context,IObservable observable)
-    {
-        
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        var method = context.Request.Method;
-        var path = context.Request.Path;
-
-        await next.Invoke(context);
-
-        
-        stopwatch.Stop();
-        var duration = stopwatch.ElapsedMilliseconds;
-        var statuscode = context.Response.StatusCode;
-        var communication = new Communication();
-        communication.message = $"[TIMING] {method} {path} status code {statuscode} {duration} ms";
-        communication.dateTime= DateTime.UtcNow;
-        observable.NotifyObservers(communication);
-
-    }
-}
-

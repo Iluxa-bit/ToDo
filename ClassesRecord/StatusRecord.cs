@@ -1,6 +1,6 @@
 ﻿namespace ToDo_1.ClassesDTO
 {
-    public enum StatusDto
+    public enum StatusRecord
     {
         NotStarted = 1,
         InProgress=5,

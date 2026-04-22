@@ -63,7 +63,7 @@
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.ClassesDTO.CreateTaskDto",
+        "Type": "ToDo_1.ClassesDTO.CreateTaskRecord",
         "IsRequired": true
       }
     ],
@@ -78,7 +78,7 @@
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0_5",
-    "RelativePath": "api/tasks/{id}",
+    "RelativePath": "api/tasks/{id:int}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -100,7 +100,7 @@
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0_6",
-    "RelativePath": "api/tasks/{id}",
+    "RelativePath": "api/tasks/{id:int}",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
@@ -122,14 +122,14 @@
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0_8",
-    "RelativePath": "api/tasks/{id}",
+    "RelativePath": "api/tasks/{id:int}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.ClassesDTO.UpdateTaskDto",
+        "Type": "ToDo_1.ClassesDTO.UpdateTaskRecord",
         "IsRequired": true
       },
       {
@@ -149,7 +149,7 @@
   {
     "ContainingType": "Program\u002B\u003C\u003Ec",
     "Method": "\u003C\u003CMain\u003E$\u003Eb__0_9",
-    "RelativePath": "api/tasks/{id}/status",
+    "RelativePath": "api/tasks/{id:int}/status",
     "HttpMethod": "PATCH",
     "IsController": false,
     "Order": 0,
@@ -161,7 +161,7 @@
       },
       {
         "Name": "patchStatusDto",
-        "Type": "ToDo_1.ClassesDTO.PatchStatusDto",
+        "Type": "ToDo_1.ClassesDTO.PatchStatusRecord",
         "IsRequired": true
       }
     ],

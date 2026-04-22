@@ -16,7 +16,7 @@ namespace ToDo_1.Models
 
             public string? Description { get; set; }
 
-           public  StatusDto Status{ get; set; } = StatusDto.NotStarted;
+           public  StatusRecord Status{ get; set; } = StatusRecord.NotStarted;
             public DateTime CreatedAt { get; set; }
 
             public DateTime UpdatedAt { get; set; }
