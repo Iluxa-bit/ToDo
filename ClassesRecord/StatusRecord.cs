@@ -1,4 +1,4 @@
-﻿namespace ToDo_1.ClassesDTO
+﻿namespace ToDo_1.ClassesRecord
 {
     public enum StatusRecord
     {

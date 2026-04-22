@@ -63,7 +63,7 @@
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.ClassesDTO.CreateTaskRecord",
+        "Type": "ToDo_1.ClassesRecord.CreateTaskRecord",
         "IsRequired": true
       }
     ],
@@ -129,7 +129,7 @@
     "Parameters": [
       {
         "Name": "taskDto",
-        "Type": "ToDo_1.ClassesDTO.UpdateTaskRecord",
+        "Type": "ToDo_1.ClassesRecord.UpdateTaskRecord",
         "IsRequired": true
       },
       {
@@ -161,7 +161,7 @@
       },
       {
         "Name": "patchStatusDto",
-        "Type": "ToDo_1.ClassesDTO.PatchStatusRecord",
+        "Type": "ToDo_1.ClassesRecord.PatchStatusRecord",
         "IsRequired": true
       }
     ],

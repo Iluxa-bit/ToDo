@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.IO;
-using ToDo_1.ClassesDTO;
+using ToDo_1.ClassesRecord;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using ToDo_1.Logging;
 using ToDo_1.Models;
@@ -58,25 +58,4 @@ namespace ToDo_1.Models
 
     }
 
-    public class FileObserver : IObserverLog
-    {
-        private readonly string filePath;
-        private static object _lock = new();
-
-        public FileObserver(string filePath)
-        {
-            this.filePath = filePath;
-        }
-
-        public void Update(Log log)
-        {
-
-            lock (_lock)
-            {
-                File.AppendAllText(filePath, (log.Message, log.DateTime) + Environment.NewLine);
-            }
-        }
-    }
-
-    
 }

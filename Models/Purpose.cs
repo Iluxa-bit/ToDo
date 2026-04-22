@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using ToDo_1.ClassesDTO;
+using ToDo_1.ClassesRecord;
 
 namespace ToDo_1.Models
 {

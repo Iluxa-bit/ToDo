@@ -1,14 +1,14 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using ToDo_1.ClassesDTO;
 using ToDo_1.Controllers;
-//using ToDo_1.Logging;
+using ToDo_1.ClassesRecord;
 using ToDo_1.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using ToDo_1.Logging;
 
-const string MESSAGE_ERROR = "Некорректные данные";
+
+
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddDbContext<ApplicationContext>(opt =>
  opt.UseNpgsql(builder.Configuration.GetConnectionString("MyWebApiConection")));
@@ -35,7 +35,7 @@ try
 }
 catch
 {
-    return Results.NotFound(new{message="Некорректные данные" });
+    return Results.NotFound(Consts.MESSAGE_ERROR);
     }
 });
 
@@ -56,7 +56,7 @@ app.MapGet("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
         // получаем пользователя по id
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(u => u.Id == id);
         // если не найден, отправляем статусный код и сообщение об ошибке
-        if (task == null) return Results.NotFound(MESSAGE_ERROR);
+        if (task == null) return Results.NotFound(Consts.USER_NOT_FOUND);
         
 
         // если пользователь найден, отправляем его
@@ -64,7 +64,7 @@ app.MapGet("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
     }
     catch
     {
-        return Results.NotFound(MESSAGE_ERROR);
+        return Results.NotFound(Consts.MESSAGE_ERROR);
     }
 
 });
@@ -79,7 +79,7 @@ app.MapDelete("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(u => u.Id == id);
 
         // если не найден, отправляем статусный код и сообщение об ошибке
-        if (task == null) return Results.NotFound(new { message = "Пользователь не найден" });
+        if (task == null) return Results.NotFound(Consts.USER_NOT_FOUND);
 
         // если пользователь найден, удаляем его
         db.Tasks.Remove(task);
@@ -88,7 +88,7 @@ app.MapDelete("/api/tasks/{id:int}", async (int id, ApplicationContext db) =>
     }
     catch
     {
-        return Results.NotFound(new { message = "Некорректные данные" });
+        return Results.NotFound(Consts.MESSAGE_ERROR);
     }
 });
 
@@ -120,7 +120,7 @@ app.MapPut("/api/tasks/{id:int}", async (UpdateTaskRecord taskDto, ApplicationCo
         // получаем пользователя по id
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(u => u.Id == id);
         // если не найден, отправляем статусный код и сообщение об ошибке
-           if (task == null) return Results.NotFound(new { message = "Пользователь не найден" });
+           if (task == null) return Results.NotFound(Consts.USER_NOT_FOUND);
         // если пользователь найден, изменяем его данные и отправляем обратно клиенту
 
         task.Title = taskDto.Title;
@@ -132,7 +132,7 @@ app.MapPut("/api/tasks/{id:int}", async (UpdateTaskRecord taskDto, ApplicationCo
     }
     catch
     {
-        return Results.NotFound(new { message = "Некорректные данные" });
+        return Results.NotFound(Consts.MESSAGE_ERROR);
     }
 });
 
@@ -142,14 +142,14 @@ app.MapPatch("/api/tasks/{id:int}/status", async (ApplicationContext db, int id,
     try
     {
         Purpose? task = await db.Tasks.FirstOrDefaultAsync(x => x.Id == id);
-        if (task == null) return Results.NotFound(new { message = "Пользователь не найден" });
+        if (task == null) return Results.NotFound(Consts.USER_NOT_FOUND);
         task.Status = patchStatusDto.status;
         await db.SaveChangesAsync();
         return Results.Json(task);
     }
     catch 
     {
-        return Results.NotFound(new { message = "Некорректные данные" });
+        return Results.NotFound(Consts.MESSAGE_ERROR);
     }
 
 

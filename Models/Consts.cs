@@ -1,6 +1,6 @@
-﻿namespace ToDo_1.AppConsts
+﻿namespace ToDo_1.Models
 {
-    public static class AppConsts
+    public static class Consts
     {
         public const string MESSAGE_ERROR = "Некорректные данные";
         public const string USER_NOT_FOUND = "Пользователь не найден";
